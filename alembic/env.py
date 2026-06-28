@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # access to the values within the .ini file in use.
 config = context.config
 
-migration = settings.DATABASE_URL
+migration = settings.DATABASE_URL_ALEMBIC
 if migration:
     config.set_main_option("sqlalchemy.url", migration)
     
