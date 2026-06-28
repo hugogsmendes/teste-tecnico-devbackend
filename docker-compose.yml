@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    container_name: task-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/project
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: task-db
+
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
