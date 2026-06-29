@@ -19,6 +19,13 @@ class CriarTarefa (BaseModel):
     descricao: str
     status: StatusTarefa
 
+class AtualizarTarefa (BaseModel):
+
+    model_config = ConfigDict(from_attributes = True)
+
+    titulo: str | None = None
+    descricao: str | None = None
+    status: StatusTarefa | None = None
 class ResponseTarefa (BaseModel):
 
     model_config = ConfigDict(from_attributes = True)

@@ -38,3 +38,18 @@ class TaskRepository:
         result = await self.session.execute(stmt)
 
         return result.scalar_one_or_none()
+    
+    async def update_task_by_id (self, task: Task, tarefa_dict: dict) -> None:
+
+        try:
+
+            for field, value in tarefa_dict.items():
+                setattr(task, field, value)
+
+            await self.session.commit()
+            await self.session.refresh(task)
+            
+        except Exception:
+
+            await self.session.rollback()
+            raise
