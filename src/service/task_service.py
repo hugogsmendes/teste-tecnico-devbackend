@@ -14,7 +14,7 @@ class TaskService:
             return await self.repository.create_task(tarefa_dict)
 
         except HTTPException:
-            raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")
+            raise
         except Exception:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")
         
@@ -25,6 +25,23 @@ class TaskService:
             return await self.repository.list_tasks()
 
         except HTTPException:
+            raise
+        except Exception:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")
+
+        
+    async def list_tasks_by_id (self, id: int):
+
+        try:
+
+            task = await self.repository.get_task_by_id(id)
+
+            if not task:
+                raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Tarefa não encontrada")
+            
+            return task
+
+        except HTTPException:
+            raise
         except Exception:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")

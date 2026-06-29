@@ -30,3 +30,11 @@ class TaskRepository:
         result = await self.session.execute(stmt)
 
         return result.scalars().all()
+    
+    async def get_task_by_id (self, id: int) -> Task | None:
+
+        stmt = select(Task).filter(Task.id == id)
+
+        result = await self.session.execute(stmt)
+
+        return result.scalar_one_or_none()

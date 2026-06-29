@@ -16,6 +16,12 @@ task_list_responses = {
     500: {"model": ResponseMensagemErro, "description": "Erro interno"},
 }
 
+task_list_by_id_responses = {
+    200: {"model": list[ResponseTarefa], "description": "Tarefa listada"},
+    404: {"model": ResponseMensagemErro, "description": "Tarefa não encontrada"},
+    500: {"model": ResponseMensagemErro, "description": "Erro interno"},
+}
+
 @task_router.post(path = "", 
                   summary =  "Cria uma nova tarefa",
                   description = "Recebe os dados e cria uma nova tarefa",
@@ -33,3 +39,12 @@ async def create_task (tarefa: CriarTarefa, service: TaskService = Depends(get_t
                  status_code = status.HTTP_200_OK)
 async def list_tasks (service: TaskService = Depends(get_task_service)):
     return await service.list_tasks()
+
+@task_router.get(path = "/{id}",
+                 summary = "Lista tarefa pelo ID",
+                 description = "Lista a tarefa pelo ID passado na requisição",
+                 response_model = ResponseTarefa,
+                 responses = task_list_by_id_responses,
+                 status_code = status.HTTP_200_OK)
+async def list_task_by_id (id: int, service: TaskService = Depends(get_task_service)):
+    return await service.list_tasks_by_id(id)
