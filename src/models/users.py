@@ -10,6 +10,6 @@ class User (Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key = True, autoincrement = True)
     nome: Mapped[str] = mapped_column(Text, nullable = False)
-    email: Mapped[str] = mapped_column(Text, nullable = False)
+    email: Mapped[str] = mapped_column(Text, nullable = False, unique = True)
     senha_hash: Mapped[str] = mapped_column(Text, nullable = False)
     data_de_criacao: Mapped[datetime] = mapped_column(DateTime, nullable = False, server_default = func.now())
