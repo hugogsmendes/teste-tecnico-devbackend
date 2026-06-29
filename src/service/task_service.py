@@ -65,3 +65,19 @@ class TaskService:
             raise
         except Exception:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")
+        
+    async def delete_task_by_id (self, id: int):
+
+        try:
+
+            task = await self.repository.get_task_by_id(id)
+
+            if not task:
+                raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Tarefa não encontrada")
+            
+            return await self.repository.delete_task_by_id(task)
+        
+        except HTTPException:
+            raise
+        except Exception:
+            raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")

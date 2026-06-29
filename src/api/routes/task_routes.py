@@ -28,6 +28,12 @@ task_update_responses = {
     500: {"model": ResponseMensagemErro, "description": "Erro interno"},
 }
 
+task_delete_responses = {
+    204: {"model": None, "description": "Tarefa deletada"},
+    404: {"model": ResponseMensagemErro, "description": "Tarefa não encontrada"},
+    500: {"model": ResponseMensagemErro, "description": "Erro interno"},
+}
+
 @task_router.post(path = "", 
                   summary =  "Cria uma nova tarefa",
                   description = "Recebe os dados e cria uma nova tarefa",
@@ -62,3 +68,11 @@ async def list_task_by_id (id: int, service: TaskService = Depends(get_task_serv
                    status_code = status.HTTP_204_NO_CONTENT)
 async def update_task_by_id (id: int, tarefa: AtualizarTarefa, service: TaskService = Depends(get_task_service)):
     return await service.update_task_by_id(id, tarefa)
+
+@task_router.delete(path = "{id}",
+                    summary = "Deleta uma tarefa pelo ID",
+                    description = "Deleta uma tarefa",
+                    responses = task_delete_responses,
+                    status_code = status.HTTP_204_NO_CONTENT)
+async def delete_task_by_id (id: int, service: TaskService = Depends(get_task_service)):
+    return await service.delete_task_by_id(id)
