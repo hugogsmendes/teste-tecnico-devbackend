@@ -3,10 +3,12 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from src.utils.security import verify_token_jwt
 from src.core.config import Settings
 
-setting = Settings()
+settings = Settings()
 security = HTTPBearer(auto_error = False)
 
-async def get_current_user(request: Request, credential: HTTPAuthorizationCredentials = Depends(security)):
+COOKIE_EXPIRE = settings.COOKIE_EXPIRE
+
+def get_current_user(request: Request, credential: HTTPAuthorizationCredentials = Depends(security)):
     try:
         token = request.cookies.get("auth")
         if not token:
@@ -28,3 +30,13 @@ async def get_current_user(request: Request, credential: HTTPAuthorizationCreden
         raise
     except Exception:
         raise HTTPException 
+    
+def set_cookie_auth(response: Response, token: str) -> None:
+    response.set_cookie(
+        key = "auth",
+        value = token,
+        httponly = True,
+        secure = True,
+        max_age = COOKIE_EXPIRE,
+        samesite = "none"
+    )
