@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.tasks import Task
+from sqlalchemy import select, Sequence
 class TaskRepository:
 
     def __init__(self, session: AsyncSession):
@@ -21,4 +22,11 @@ class TaskRepository:
 
             await self.session.rollback()
             raise
-        
+    
+    async def list_tasks (self) -> Sequence[Task]:
+
+        stmt = select(Task)
+
+        result = await self.session.execute(stmt)
+
+        return result.scalars().all()
