@@ -25,7 +25,7 @@ class TaskRepository:
             await self.session.rollback()
             raise
     
-    async def list_tasks (self, status_tarefa: StatusTarefa | None, titulo_tarefa: str | None) -> Sequence[Task]:
+    async def list_tasks (self, status_tarefa: StatusTarefa | None, titulo_tarefa: str | None, limit: int, offset: int) -> Sequence[Task]:
 
         stmt = (select(Task).filter(Task.data_de_exclusao.is_(None)))
 
@@ -34,6 +34,11 @@ class TaskRepository:
 
         if titulo_tarefa is not None:
             stmt = stmt.filter(Task.titulo.ilike(f"%{titulo_tarefa}%"))
+
+        # limit: quantidade de linhas retornadas
+        # offset: quantidade de linhas que são puladas
+
+        stmt = stmt.limit(limit).offset(offset)
 
         result = await self.session.execute(stmt)
 

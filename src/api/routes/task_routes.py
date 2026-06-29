@@ -52,8 +52,10 @@ async def create_task (tarefa: CriarTarefa, service: TaskService = Depends(get_t
                  status_code = status.HTTP_200_OK)
 async def list_tasks (status_tarefa: Optional[StatusTarefa] = Query(None, description = "Filtre por: Pendente, Em andamento ou Concluída"),
                       titulo_tarefa: Optional[str] = Query(None, description = "Busque por uma palavra no título"),
+                      limit: int = Query(5, ge = 1, le = 20, description = "Quantidade de itens por página"),
+                      offset: int = Query(0, ge = 0, description = "Quantidade de itens para pular"),
                       service: TaskService = Depends(get_task_service)):
-    return await service.list_tasks(status_tarefa, titulo_tarefa)
+    return await service.list_tasks(status_tarefa, titulo_tarefa, limit, offset)
 
 @task_router.get(path = "/{id}",
                  summary = "Lista tarefa pelo ID",

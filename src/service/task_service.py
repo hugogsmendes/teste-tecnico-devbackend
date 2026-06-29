@@ -18,11 +18,11 @@ class TaskService:
         except Exception:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")
         
-    async def list_tasks (self, status_tarefa: StatusTarefa | None, titulo_tarefa: str | None):
+    async def list_tasks (self, status_tarefa: StatusTarefa | None, titulo_tarefa: str | None, limit: int, offset: int):
 
         try:
 
-            return await self.repository.list_tasks(status_tarefa, titulo_tarefa)
+            return await self.repository.list_tasks(status_tarefa, titulo_tarefa, limit, offset)
 
         except HTTPException:
             raise
