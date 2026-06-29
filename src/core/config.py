@@ -8,3 +8,4 @@ class Settings(BaseSettings):
 	SECRET_KEY: str
 	ALGORITHM: str
 	TOKEN_EXPIRE: int
+	COOKIE_EXPIRE: int
