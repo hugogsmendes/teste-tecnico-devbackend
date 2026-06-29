@@ -22,7 +22,7 @@ def get_current_user(request: Request, credential: HTTPAuthorizationCredentials 
         
         return {
             "id": payload.get("sub"),
-            "nome": payload.get("name"),
+            "nome": payload.get("nome"),
             "email": payload.get("email"),
         }
 
