@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
+from typing import Optional
 from src.service.task_service import TaskService
 from src.utils.dependencies import get_task_service
-from src.utils.schemas import CriarTarefa, ResponseMensagemErro, ResponseTarefa, AtualizarTarefa
+from src.utils.schemas import CriarTarefa, ResponseMensagemErro, ResponseTarefa, AtualizarTarefa, StatusTarefa
 
 task_router = APIRouter(prefix = "/task", tags = ["tasks"])
 
@@ -49,8 +50,10 @@ async def create_task (tarefa: CriarTarefa, service: TaskService = Depends(get_t
                  response_model = list[ResponseTarefa],
                  responses = task_list_responses,
                  status_code = status.HTTP_200_OK)
-async def list_tasks (service: TaskService = Depends(get_task_service)):
-    return await service.list_tasks()
+async def list_tasks (status_tarefa: Optional[StatusTarefa] = Query(None, description = "Filtre por: Pendente, Em andamento ou Concluída"),
+                      titulo_tarefa: Optional[str] = Query(None, description = "Busque por uma palavra no título"),
+                      service: TaskService = Depends(get_task_service)):
+    return await service.list_tasks(status_tarefa, titulo_tarefa)
 
 @task_router.get(path = "/{id}",
                  summary = "Lista tarefa pelo ID",

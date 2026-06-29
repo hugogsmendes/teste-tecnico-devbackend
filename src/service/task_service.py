@@ -1,5 +1,5 @@
 from src.repository.task_repository import TaskRepository
-from src.utils.schemas import CriarTarefa, AtualizarTarefa
+from src.utils.schemas import CriarTarefa, AtualizarTarefa, StatusTarefa
 from fastapi import HTTPException, status
 class TaskService:
 
@@ -18,11 +18,11 @@ class TaskService:
         except Exception:
             raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Erro interno")
         
-    async def list_tasks (self):
+    async def list_tasks (self, status_tarefa: StatusTarefa | None, titulo_tarefa: str | None):
 
         try:
 
-            return await self.repository.list_tasks()
+            return await self.repository.list_tasks(status_tarefa, titulo_tarefa)
 
         except HTTPException:
             raise

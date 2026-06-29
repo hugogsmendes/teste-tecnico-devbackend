@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.tasks import Task
 from sqlalchemy import select, Sequence
 from datetime import datetime
+from src.utils.schemas import StatusTarefa
 class TaskRepository:
 
     def __init__(self, session: AsyncSession):
@@ -24,9 +25,15 @@ class TaskRepository:
             await self.session.rollback()
             raise
     
-    async def list_tasks (self) -> Sequence[Task]:
+    async def list_tasks (self, status_tarefa: StatusTarefa | None, titulo_tarefa: str | None) -> Sequence[Task]:
 
         stmt = (select(Task).filter(Task.data_de_exclusao.is_(None)))
+
+        if status_tarefa is not None:
+            stmt = stmt.filter(Task.status == status_tarefa)
+
+        if titulo_tarefa is not None:
+            stmt = stmt.filter(Task.titulo.ilike(f"%{titulo_tarefa}%"))
 
         result = await self.session.execute(stmt)
 
