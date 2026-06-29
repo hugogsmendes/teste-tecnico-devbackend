@@ -26,7 +26,7 @@ class TaskRepository:
     
     async def list_tasks (self) -> Sequence[Task]:
 
-        stmt = select(Task)
+        stmt = (select(Task).filter(Task.data_de_exclusao.is_(None)))
 
         result = await self.session.execute(stmt)
 
@@ -34,7 +34,7 @@ class TaskRepository:
     
     async def get_task_by_id (self, id: int) -> Task | None:
 
-        stmt = select(Task).filter(Task.id == id)
+        stmt = (select(Task).filter(Task.id == id, Task.data_de_exclusao.is_(None)))
 
         result = await self.session.execute(stmt)
 
