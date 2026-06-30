@@ -1,6 +1,7 @@
 services:
   api:
     build: .
+    image: api-to-do
     container_name: task-api
     ports:
       - "8000:8000"
