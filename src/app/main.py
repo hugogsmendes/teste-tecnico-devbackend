@@ -9,5 +9,7 @@ async def start_app():
     return {"detail": "API is running"}
 
 from src.api.routes.task_routes import task_router
+from src.api.routes.auth_routes import auth_router
 
 app.include_router(task_router)
+app.include_router(auth_router)

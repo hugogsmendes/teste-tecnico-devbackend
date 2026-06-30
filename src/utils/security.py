@@ -21,12 +21,12 @@ def verify_password (hashed_password: str, password: str):
     except VerificationError:
         return False
     
-def create_token_jwt (user_id: int, name: str, email: str, token_duration = timedelta(seconds = TOKEN_EXPIRE)):
+def create_token_jwt (user_id: int, nome: str, email: str, token_duration = timedelta(seconds = TOKEN_EXPIRE)):
     expire = datetime.now(timezone.utc) + token_duration
 
     payload = {
         "sub": str(user_id),
-        "nome": name,
+        "nome": nome,
         "email": email,
         "exp": expire,
         "type": "access"
