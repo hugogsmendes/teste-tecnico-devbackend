@@ -33,6 +33,15 @@ Na prática, a rota chama o service, o service decide o que fazer e o repository
 - Docker e Docker Compose
 - Um ambiente com suporte a arquivos `.env`
 
+## Executando o projeto:
+
+### Clonar o repositório
+
+```bash
+git clone https://github.com/hugogsmendes/teste-tecnico-devbackend.git
+cd teste-tecnico-devbackend
+```
+
 ## Arquivo de ambiente
 
 Antes de subir a aplicação, crie um arquivo `.env` na raiz do projeto e copie as variáveis do arquivo `.env.example`.
