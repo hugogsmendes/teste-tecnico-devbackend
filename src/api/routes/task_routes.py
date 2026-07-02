@@ -5,7 +5,7 @@ from src.utils.dependencies import get_task_service
 from src.utils.auth import get_current_user
 from src.utils.schemas import CriarTarefa, ResponseMensagemErro, ResponseTarefa, AtualizarTarefa, StatusTarefa
 
-task_router = APIRouter(prefix = "/task", tags = ["tasks"], dependencies = [Depends(get_current_user)])
+task_router = APIRouter(prefix = "/tasks", tags = ["tasks"], dependencies = [Depends(get_current_user)])
 
 task_create_responses = {
     201: {"model": ResponseTarefa, "description": "Tarefa criada"},
@@ -16,7 +16,6 @@ task_create_responses = {
 task_list_responses = {
     200: {"model": list[ResponseTarefa], "description": "Tarefas listada"},
     401: {"model": ResponseMensagemErro, "description": "Não autenticado"},
-    404: {"model": ResponseMensagemErro, "description": "Tarefas não encontradas"},
     500: {"model": ResponseMensagemErro, "description": "Erro interno"},
 }
 
