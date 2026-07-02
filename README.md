@@ -113,7 +113,7 @@ docker compose exec api alembic upgrade head
 3. Crie o usuário de teste:
 
 ```powershell
-python -m scripts.create_user
+docker compose exec api python -m scripts.create_user
 ```
 
 4. Acesse a documentação da API:
